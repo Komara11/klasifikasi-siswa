@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Student extends Model
 {
-    protected $fillable = ['nis', 'name', 'gender', 'classroom_id', 'birth_date', 'address'];
+    protected $fillable = ['nis', 'name', 'gender', 'classroom_id', 'birth_date', 'address', 'photo'];
 
     public function classroom(): BelongsTo
     {

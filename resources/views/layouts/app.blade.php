@@ -25,6 +25,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>@yield('title', 'Sistem Rekomendasi Peminatan Siswa SMP') - {{ \App\Models\Setting::getValue('school_name', 'SMP Negeri 1 Sumber') }}</title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
     
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet"/>
@@ -180,7 +182,7 @@
             </main>
             
             <footer class="no-print px-gutter py-space-md border-t border-outline-variant/30 flex flex-col sm:flex-row justify-between items-center gap-2 text-body-sm text-on-surface-variant bg-surface shrink-0 text-center sm:text-left">
-                <p>© {{ date('Y') }} {{ \App\Models\Setting::getValue('school_name', 'SMP Negeri 1 Sumber') }}. Sistem Klasifikasi Naive Bayes.</p>
+                <p>© {{ date('Y') }} Sistem Klasifikasi Siswa</p>
                 <p class="font-label-caps text-[10px] tracking-wider text-outline">V.1.0.0</p>
             </footer>
         </div>

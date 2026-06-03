@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Classroom;
 use App\Models\Student;
 use App\Models\StudentScore;
 use App\Models\Subject;
@@ -11,13 +12,30 @@ class ScoreController extends Controller
 {
     public function index(Request $request)
     {
-        $students = Student::with('classroom')->orderBy('name')->get();
+        $classrooms = Classroom::all();
         $subjects = Subject::all();
         $selectedStudent = null;
         $scores = [];
 
+        // Build student query with search and classroom filter
+        $studentQuery = Student::with('classroom')->orderBy('name');
+
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $studentQuery->where(function ($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                  ->orWhere('nis', 'like', "%{$search}%");
+            });
+        }
+
+        if ($request->filled('classroom')) {
+            $studentQuery->whereHas('classroom', fn($q) => $q->where('name', $request->classroom));
+        }
+
+        $students = $studentQuery->get();
+
         if ($request->filled('student_id')) {
-            $selectedStudent = Student::find($request->student_id);
+            $selectedStudent = Student::with('classroom')->find($request->student_id);
             if ($selectedStudent) {
                 $scores = StudentScore::where('student_id', $selectedStudent->id)
                     ->get()
@@ -26,7 +44,7 @@ class ScoreController extends Controller
             }
         }
 
-        return view('admin.scores.index', compact('students', 'subjects', 'selectedStudent', 'scores'));
+        return view('admin.scores.index', compact('students', 'classrooms', 'subjects', 'selectedStudent', 'scores'));
     }
 
     public function store(Request $request)

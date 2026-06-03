@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Classroom;
 use App\Models\Student;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class StudentController extends Controller
 {
@@ -34,6 +35,12 @@ class StudentController extends Controller
         return view('admin.students.index', compact('students', 'classrooms'));
     }
 
+    public function show(Student $student)
+    {
+        $student->load('classroom');
+        return view('admin.students.show', compact('student'));
+    }
+
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -43,7 +50,12 @@ class StudentController extends Controller
             'classroom_id' => 'required|exists:classrooms,id',
             'birth_date' => 'nullable|date',
             'address' => 'nullable|string',
+            'photo' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
         ]);
+
+        if ($request->hasFile('photo')) {
+            $validated['photo'] = $request->file('photo')->store('students', 'public');
+        }
 
         Student::create($validated);
 
@@ -59,7 +71,16 @@ class StudentController extends Controller
             'classroom_id' => 'required|exists:classrooms,id',
             'birth_date' => 'nullable|date',
             'address' => 'nullable|string',
+            'photo' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
         ]);
+
+        if ($request->hasFile('photo')) {
+            // Delete old photo
+            if ($student->photo) {
+                Storage::disk('public')->delete($student->photo);
+            }
+            $validated['photo'] = $request->file('photo')->store('students', 'public');
+        }
 
         $student->update($validated);
 
@@ -68,6 +89,9 @@ class StudentController extends Controller
 
     public function destroy(Student $student)
     {
+        if ($student->photo) {
+            Storage::disk('public')->delete($student->photo);
+        }
         $student->delete();
         return redirect()->route('admin.students.index')->with('success', 'Siswa berhasil dihapus.');
     }

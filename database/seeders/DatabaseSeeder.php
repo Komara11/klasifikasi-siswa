@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Classroom;
 use App\Models\QuestionnaireQuestion;
 use App\Models\Setting;
+use App\Models\Student;
 use App\Models\Subject;
 use App\Models\User;
 use Illuminate\Database\Seeder;
@@ -32,10 +33,10 @@ class DatabaseSeeder extends Seeder
         ]);
 
         // === CLASSROOMS ===
-        Classroom::create(['name' => 'IX-A', 'grade' => 'IX', 'academic_year' => '2025/2026']);
-        Classroom::create(['name' => 'IX-B', 'grade' => 'IX', 'academic_year' => '2025/2026']);
-        Classroom::create(['name' => 'IX-C', 'grade' => 'IX', 'academic_year' => '2025/2026']);
-        Classroom::create(['name' => 'IX-D', 'grade' => 'IX', 'academic_year' => '2025/2026']);
+        $ixA = Classroom::create(['name' => 'IX-A', 'grade' => 'IX', 'academic_year' => '2025/2026']);
+        $ixB = Classroom::create(['name' => 'IX-B', 'grade' => 'IX', 'academic_year' => '2025/2026']);
+        $ixC = Classroom::create(['name' => 'IX-C', 'grade' => 'IX', 'academic_year' => '2025/2026']);
+        $ixD = Classroom::create(['name' => 'IX-D', 'grade' => 'IX', 'academic_year' => '2025/2026']);
 
         // === SUBJECTS ===
         Subject::create(['name' => 'Matematika', 'code' => 'matematika', 'weight' => 1.20]);
@@ -67,5 +68,6 @@ class DatabaseSeeder extends Seeder
         Setting::setValue('school_logo', null);
         Setting::setValue('principal_name', 'Drs. H. Sudrajat, M.M.');
         Setting::setValue('principal_nip', '19680312 199403 1 005');
+
     }
 }

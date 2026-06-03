@@ -27,28 +27,102 @@
 
     <!-- Main Content -->
     <div x-show="!loading" class="space-y-space-lg">
+        <!-- Back button when student selected -->
+        @if($selectedStudent)
+        <div>
+            <a href="{{ route('admin.scores.index') }}" class="inline-flex items-center gap-1.5 text-sm font-bold text-primary hover:text-primary/80 transition-colors">
+                <span class="material-symbols-outlined text-[18px]">arrow_back</span>
+                Kembali ke Daftar Siswa
+            </a>
+        </div>
+        @endif
+
         <h2 class="font-h1 text-primary text-xl font-bold">Input Nilai Akademik</h2>
 
-        <!-- Student Selector -->
+        @if(!$selectedStudent)
+        <!-- Search & Filter -->
         <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-4 shadow-sm">
-            <form method="GET" action="{{ route('admin.scores.index') }}" class="flex flex-col sm:flex-row gap-3" x-data>
-                <div class="flex-1">
+            <form method="GET" action="{{ route('admin.scores.index') }}" class="flex flex-col sm:flex-row gap-3">
+                <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari nama atau NIS siswa..."
+                    class="flex-1 border border-outline-variant bg-surface rounded-lg px-3.5 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-primary"/>
+                <div class="w-full sm:w-48">
                     <x-custom-select 
-                        name="student_id" 
-                        :options="$students->map(fn($s) => ['value' => $s->id, 'label' => $s->nis . ' - ' . $s->name . ' (' . $s->classroom->name . ')'])->toArray()" 
-                        :selected="request('student_id', '')" 
-                        placeholder="-- Pilih Siswa --"
-                        onchange="if(this.selected) { $el.closest('form').submit(); }"
-                        :searchable="true"
+                        name="classroom" 
+                        :options="$classrooms->map(fn($c) => ['value' => $c->name, 'label' => $c->name])->toArray()" 
+                        :selected="request('classroom', '')" 
+                        placeholder="Semua Kelas"
                     />
                 </div>
+                <button type="submit" class="bg-primary hover:bg-primary/95 text-white px-4 py-2 rounded-lg text-xs font-bold cursor-pointer transition-colors">Cari</button>
             </form>
         </div>
+
+        <!-- Mobile Student List -->
+        <div class="sm:hidden space-y-2.5">
+            @forelse($students as $student)
+            <div class="mobile-card-item">
+                <div class="flex gap-3 items-start">
+                    <div class="flex-1 min-w-0">
+                        <p class="font-bold text-primary text-sm truncate">{{ $student->name }}</p>
+                        <p class="text-[11px] text-outline mt-0.5">NIS: {{ $student->nis }} • {{ $student->classroom->name }}</p>
+                    </div>
+                </div>
+                <div class="mt-2 pt-2 border-t border-outline-variant/20">
+                    <a href="{{ route('admin.scores.index', ['student_id' => $student->id]) }}" class="w-full flex items-center justify-center gap-1 px-3 py-2 bg-primary hover:bg-primary/90 text-white rounded-lg text-[11px] font-bold transition-all">
+                        <span class="material-symbols-outlined text-[14px]">edit_note</span> Input Nilai
+                    </a>
+                </div>
+            </div>
+            @empty
+            <div class="text-center py-6 text-on-surface-variant text-sm">
+                {{ request('search') || request('classroom') ? 'Tidak ada siswa yang cocok dengan pencarian.' : 'Belum ada data siswa.' }}
+            </div>
+            @endforelse
+        </div>
+
+        <!-- Desktop Student List -->
+        <div class="hidden sm:block bg-surface-container-lowest border border-outline-variant rounded-xl shadow-sm overflow-hidden">
+            <div class="dense-table-wrapper" style="border: none; border-radius: 0;">
+                <table class="w-full text-left border-collapse dense-table" style="min-width: 500px;">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>NIS</th>
+                            <th>Nama Siswa</th>
+                            <th>Kelas</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-outline-variant/30">
+                        @forelse($students as $student)
+                        <tr class="hover:bg-surface-container-low transition-colors">
+                            <td class="text-on-surface-variant">{{ $loop->iteration }}</td>
+                            <td class="font-bold text-primary">{{ $student->nis }}</td>
+                            <td class="font-semibold">{{ $student->name }}</td>
+                            <td>{{ $student->classroom->name }}</td>
+                            <td>
+                                <a href="{{ route('admin.scores.index', ['student_id' => $student->id]) }}" class="inline-flex items-center gap-1 px-3 py-1.5 bg-primary hover:bg-primary/90 text-white rounded-lg text-[11px] font-bold transition-all">
+                                    <span class="material-symbols-outlined text-[14px]">edit_note</span> Input Nilai
+                                </a>
+                            </td>
+                        </tr>
+                        @empty
+                        <tr>
+                            <td colspan="5" class="text-center py-10 text-on-surface-variant">
+                                {{ request('search') || request('classroom') ? 'Tidak ada siswa yang cocok dengan pencarian.' : 'Belum ada data siswa.' }}
+                            </td>
+                        </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        @endif
 
         @if($selectedStudent)
         <!-- Score Input Form -->
         <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-space-lg shadow-sm">
-            <h3 class="font-h2 text-primary font-bold mb-4">Nilai Semester: {{ $selectedStudent->name }}</h3>
+            <h3 class="font-h2 text-primary font-bold mb-4">Nilai Semester: {{ $selectedStudent->name }} <span class="text-outline font-normal text-sm">({{ $selectedStudent->classroom->name }})</span></h3>
 
             @for($sem = 1; $sem <= 5; $sem++)
             <form method="POST" action="{{ route('admin.scores.store') }}" class="mb-6" @submit="loading = true">
@@ -76,11 +150,6 @@
                 </div>
             </form>
             @endfor
-        </div>
-        @else
-        <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-10 text-center shadow-sm">
-            <span class="material-symbols-outlined text-outline text-[48px]">edit_note</span>
-            <p class="text-on-surface-variant mt-2">Pilih siswa terlebih dahulu untuk menginput nilai.</p>
         </div>
         @endif
     </div>

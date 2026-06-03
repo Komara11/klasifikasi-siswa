@@ -3,7 +3,7 @@
 @section('title', 'Login Sistem')
 
 @section('content')
-<div class="flex-grow flex items-center justify-center p-space-lg" x-data="{ loading: false }" @submit.document="loading = true">
+<div class="flex-grow flex items-center justify-center p-space-lg" x-data="{ loading: false, showPassword: false }" @submit.document="loading = true">
     <div class="w-full max-w-md">
         
         <!-- Skeleton Screen -->
@@ -52,9 +52,15 @@
                 </div>
                 <div>
                     <label class="block text-xs font-bold text-on-surface mb-2">Password</label>
-                    <input type="password" name="password" required
-                        class="w-full border border-outline-variant bg-surface rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all"
-                        placeholder="Masukkan password"/>
+                    <div class="relative">
+                        <input :type="showPassword ? 'text' : 'password'" name="password" required
+                            class="w-full border border-outline-variant bg-surface rounded-xl px-4 py-3 pr-12 text-sm focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all"
+                            placeholder="Masukkan password"/>
+                        <button type="button" @click="showPassword = !showPassword"
+                            class="absolute right-3 top-1/2 -translate-y-1/2 text-outline hover:text-primary transition-colors cursor-pointer p-1">
+                            <span class="material-symbols-outlined text-[20px]" x-text="showPassword ? 'visibility_off' : 'visibility'"></span>
+                        </button>
+                    </div>
                 </div>
                 <div class="flex items-center gap-2">
                     <input type="checkbox" name="remember" id="remember" class="rounded border-outline-variant text-primary focus:ring-primary">
