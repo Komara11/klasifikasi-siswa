@@ -74,3 +74,4 @@ Route::middleware(['auth', 'role:kepsek'])->prefix('kepsek')->name('kepsek.')->g
     Route::get('/reports/csv', [ReportController::class, 'exportCsv'])->name('reports.csv');
     Route::get('/reports/pdf', [ReportController::class, 'exportPdf'])->name('reports.pdf');
 });
+
