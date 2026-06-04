@@ -25,23 +25,23 @@
         <div class="flex justify-between items-center">
             <div class="space-y-2">
                 <div class="h-6 bg-surface-container-high rounded skeleton w-48"></div>
-                <div class="h-4 bg-surface-container-high rounded skeleton w-32"></div>
+                <div class="h-4 bg-surface-container-high rounded skeleton w-64"></div>
             </div>
-            <div class="h-10 bg-surface-container-high rounded skeleton w-32"></div>
+            <div class="h-10 bg-surface-container-high rounded skeleton w-36"></div>
         </div>
-        <div class="h-16 bg-surface-container-low rounded-xl skeleton w-full"></div>
+        <div class="h-12 bg-surface-container-low rounded-xl skeleton w-full"></div>
         <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-6 space-y-4 shadow-sm">
-            <div class="space-y-3">
-                @for($i = 0; $i < 6; $i++)
-                <div class="grid grid-cols-6 gap-4">
-                    <div class="h-4 bg-surface-container-low rounded skeleton"></div>
-                    <div class="h-4 bg-surface-container-low rounded skeleton col-span-2"></div>
-                    <div class="h-4 bg-surface-container-low rounded skeleton"></div>
-                    <div class="h-4 bg-surface-container-low rounded skeleton"></div>
-                    <div class="h-4 bg-surface-container-low rounded skeleton"></div>
-                </div>
-                @endfor
+            @for($i = 0; $i < 5; $i++)
+            <div class="grid grid-cols-8 gap-4">
+                <div class="h-4 bg-surface-container-low rounded skeleton"></div>
+                <div class="h-9 w-9 bg-surface-container-low rounded-full skeleton"></div>
+                <div class="h-4 bg-surface-container-low rounded skeleton"></div>
+                <div class="h-4 bg-surface-container-low rounded skeleton col-span-2"></div>
+                <div class="h-4 bg-surface-container-low rounded skeleton"></div>
+                <div class="h-4 bg-surface-container-low rounded skeleton"></div>
+                <div class="h-4 bg-surface-container-low rounded skeleton"></div>
             </div>
+            @endfor
         </div>
     </div>
 
@@ -51,64 +51,71 @@
         <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
             <div>
                 <h2 class="font-h1 text-primary text-xl font-bold">Kelola Data Siswa</h2>
-                <p class="text-on-surface-variant font-body-sm mt-0.5">Total: {{ $students->count() }} siswa terdaftar</p>
+                <p class="text-on-surface-variant font-body-sm mt-0.5">Kelola dan pantau data seluruh siswa terdaftar di {{ \App\Models\Setting::getValue('school_name', 'SMP Negeri 1 Sumber') }}</p>
             </div>
-            <button @click="showAddModal = true" class="w-full sm:w-auto bg-primary hover:bg-primary/90 text-white px-4 py-2.5 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition-all active:scale-95 cursor-pointer">
+            <button @click="showAddModal = true" class="w-full sm:w-auto bg-primary hover:bg-primary/90 text-white px-5 py-2.5 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition-all active:scale-95 cursor-pointer shadow-sm">
                 <span class="material-symbols-outlined text-[18px]">person_add</span> Tambah Siswa
             </button>
         </div>
 
-        <!-- Filter -->
-        <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-4 shadow-sm">
-            <form method="GET" action="{{ route('admin.students.index') }}" class="flex flex-col sm:flex-row gap-3" x-data>
-                <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari nama atau NIS..."
-                    class="flex-1 border border-outline-variant bg-surface rounded-lg px-3.5 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-primary"/>
-                <div class="w-full sm:w-48">
-                    <x-custom-select 
-                        name="classroom" 
-                        :options="$classrooms->map(fn($c) => ['value' => $c->name, 'label' => $c->name])->toArray()" 
-                        :selected="request('classroom', '')" 
-                        placeholder="Semua Kelas"
-                    />
+        <!-- Search Bar -->
+        <div class="bg-surface-container-lowest border border-outline-variant rounded-xl shadow-sm">
+            <form method="GET" action="{{ route('admin.students.index') }}" class="flex flex-col sm:flex-row items-stretch">
+                <div class="flex-1 flex items-center gap-2 px-4 py-2.5 border-b sm:border-b-0 sm:border-r border-outline-variant/30">
+                    <span class="material-symbols-outlined text-outline text-[18px]">search</span>
+                    <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari nama, NIS, atau kelas siswa..."
+                        class="flex-1 bg-transparent text-sm focus:outline-none placeholder:text-outline/60"/>
                 </div>
-                <button type="submit" class="bg-primary hover:bg-primary/95 text-white px-4 py-2 rounded-lg text-xs font-bold cursor-pointer transition-colors">Filter</button>
+                <div class="flex items-center gap-2 px-3 py-2">
+                    <div class="w-full sm:w-40">
+                        <x-custom-select 
+                            name="classroom" 
+                            :options="$classrooms->map(fn($c) => ['value' => $c->name, 'label' => $c->name])->toArray()" 
+                            :selected="request('classroom', '')" 
+                            placeholder="Semua Kelas"
+                        />
+                    </div>
+                    <button type="submit" class="bg-primary hover:bg-primary/90 text-white px-4 py-2 rounded-lg text-xs font-bold cursor-pointer transition-colors shrink-0">Filter</button>
+                </div>
             </form>
         </div>
 
         <!-- Mobile Card View -->
         <div class="sm:hidden space-y-2.5">
             @forelse($students as $student)
-            @php $idx = $loop->iteration; @endphp
             <div class="mobile-card-item">
-                <div class="flex gap-3 items-start">
+                <div class="flex gap-3 items-center">
                     <!-- Photo -->
                     <div class="shrink-0">
                         @if($student->photo)
                             <img src="{{ asset('storage/' . $student->photo) }}" alt="{{ $student->name }}" class="w-10 h-10 rounded-full object-cover border border-outline-variant/30">
                         @else
-                            <div class="w-10 h-10 rounded-full flex items-center justify-center text-xs font-bold {{ $student->gender === 'L' ? 'bg-blue-100 text-blue-700' : 'bg-pink-100 text-pink-700' }}">
-                                {{ strtoupper(substr($student->name, 0, 2)) }}
+                            <div class="w-10 h-10 rounded-full flex items-center justify-center {{ $student->gender === 'L' ? 'bg-blue-50 text-blue-600' : 'bg-pink-50 text-pink-600' }}">
+                                <span class="material-symbols-outlined text-[20px]">person</span>
                             </div>
                         @endif
                     </div>
                     <div class="flex-1 min-w-0">
-                        <p class="font-bold text-primary text-sm truncate">{{ $student->name }}</p>
-                        <p class="text-[11px] text-outline mt-0.5">NIS: {{ $student->nis }} • {{ $student->classroom->name }}</p>
+                        <p class="font-bold text-on-surface text-sm truncate">{{ $student->name }}</p>
+                        <p class="text-[11px] text-outline mt-0.5">NIS: {{ $student->nis }} · {{ $student->classroom->name }}</p>
                     </div>
-                    <span class="px-2 py-0.5 rounded-full text-[10px] font-extrabold border shrink-0 {{ $student->gender === 'L' ? 'bg-blue-50 border-blue-200 text-blue-600' : 'bg-pink-50 border-pink-200 text-pink-600' }}">
+                    <span class="px-2 py-0.5 rounded text-[10px] font-bold shrink-0 {{ $student->gender === 'L' ? 'bg-blue-50 text-blue-600' : 'bg-pink-50 text-pink-600' }}">
                         {{ $student->gender === 'L' ? 'Laki-laki' : 'Perempuan' }}
                     </span>
                 </div>
-                <div class="flex items-center justify-end mt-1.5 pt-1.5 border-t border-outline-variant/20 gap-1">
-                    <a href="{{ route('admin.students.show', $student) }}" class="p-1.5 hover:bg-primary/10 rounded-lg text-primary transition-colors">
+                @if($student->address)
+                <p class="text-[11px] text-outline truncate mt-1 pl-[52px]">{{ $student->address }}</p>
+                @endif
+                <div class="flex items-center justify-end mt-2 pt-2 border-t border-outline-variant/15 gap-1">
+                    <a href="{{ route('admin.students.show', $student) }}" class="p-1.5 hover:bg-primary/10 rounded-lg text-primary transition-colors" title="Detail">
                         <span class="material-symbols-outlined text-[16px]">visibility</span>
                     </a>
-                    <button @click="editStudent = {{ json_encode($student) }}; showEditModal = true" class="p-1.5 hover:bg-primary/10 rounded-lg text-primary transition-colors cursor-pointer">
+                    <button @click="editStudent = {{ json_encode($student) }}; showEditModal = true" class="p-1.5 hover:bg-primary/10 rounded-lg text-primary transition-colors cursor-pointer" title="Edit">
                         <span class="material-symbols-outlined text-[16px]">edit</span>
                     </button>
                     <form method="POST" action="{{ route('admin.students.destroy', $student) }}" x-ref="deleteFormMobile{{ $student->id }}" @submit.prevent.stop="triggerConfirm('Hapus Data Siswa', 'Apakah Anda yakin ingin menghapus data siswa {{ $student->name }} secara permanen?', 'Ya, Hapus', 'danger', () => { loading = true; $refs.deleteFormMobile{{ $student->id }}.submit(); })" class="inline">
                         @csrf @method('DELETE')
-                        <button type="submit" class="p-1.5 hover:bg-red-50 rounded-lg text-red-500 transition-colors cursor-pointer">
+                        <button type="submit" class="p-1.5 hover:bg-red-50 rounded-lg text-red-500 transition-colors cursor-pointer" title="Hapus">
                             <span class="material-symbols-outlined text-[16px]">delete</span>
                         </button>
                     </form>
@@ -124,42 +131,43 @@
 
         <!-- Desktop Table -->
         <div class="hidden sm:block dense-table-wrapper shadow-sm">
-            <table class="w-full text-left border-collapse dense-table" style="min-width: 700px;">
+            <table class="w-full text-left border-collapse dense-table" style="min-width: 850px;">
                 <thead>
                     <tr>
                         <th class="w-12">No</th>
-                        <th>Foto</th>
+                        <th class="w-14">Profil</th>
+                        <th>NIS</th>
                         <th>Nama Lengkap</th>
-                        <th>Jenis Kelamin</th>
+                        <th>Gender</th>
                         <th>Kelas</th>
-                        <th>Aksi</th>
+                        <th>Alamat</th>
+                        <th class="w-28">Aksi</th>
                     </tr>
                 </thead>
-                <tbody class="divide-y divide-outline-variant/30">
+                <tbody class="divide-y divide-outline-variant/20">
                     @forelse($students as $student)
-                    <tr class="hover:bg-surface-container-low transition-colors">
-                        <td class="text-on-surface-variant font-medium">{{ $loop->iteration }}</td>
+                    <tr class="hover:bg-surface-container-low/50 transition-colors">
+                        <td class="text-on-surface-variant">{{ $loop->iteration }}</td>
                         <td>
                             @if($student->photo)
-                                <img src="{{ asset('storage/' . $student->photo) }}" alt="{{ $student->name }}" class="w-9 h-9 rounded-full object-cover border border-outline-variant/30">
+                                <img src="{{ asset('storage/' . $student->photo) }}" alt="{{ $student->name }}" class="w-9 h-9 rounded-full object-cover border border-outline-variant/20">
                             @else
-                                <div class="w-9 h-9 rounded-full flex items-center justify-center text-[10px] font-bold {{ $student->gender === 'L' ? 'bg-blue-100 text-blue-700' : 'bg-pink-100 text-pink-700' }}">
-                                    {{ strtoupper(substr($student->name, 0, 2)) }}
+                                <div class="w-9 h-9 rounded-full flex items-center justify-center {{ $student->gender === 'L' ? 'bg-blue-50 text-blue-500' : 'bg-pink-50 text-pink-500' }}">
+                                    <span class="material-symbols-outlined text-[18px]">person</span>
                                 </div>
                             @endif
                         </td>
+                        <td class="font-bold text-primary">{{ $student->nis }}</td>
+                        <td class="font-semibold text-on-surface">{{ $student->name }}</td>
                         <td>
-                            <span class="font-semibold">{{ $student->name }}</span>
-                            <span class="block text-[11px] text-outline">NIS: {{ $student->nis }}</span>
-                        </td>
-                        <td>
-                            <span class="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold border {{ $student->gender === 'L' ? 'bg-blue-50 border-blue-200 text-blue-600' : 'bg-pink-50 border-pink-200 text-pink-600' }}">
+                            <span class="px-2 py-0.5 rounded text-[10px] font-bold {{ $student->gender === 'L' ? 'bg-blue-50 text-blue-600' : 'bg-pink-50 text-pink-600' }}">
                                 {{ $student->gender === 'L' ? 'Laki-laki' : 'Perempuan' }}
                             </span>
                         </td>
                         <td>{{ $student->classroom->name }}</td>
+                        <td class="text-on-surface-variant text-xs truncate max-w-[160px]">{{ $student->address ?: '-' }}</td>
                         <td>
-                            <div class="flex items-center gap-1">
+                            <div class="flex items-center gap-0.5">
                                 <a href="{{ route('admin.students.show', $student) }}" class="p-1.5 hover:bg-primary/10 rounded-lg text-primary transition-colors" title="Detail">
                                     <span class="material-symbols-outlined text-[16px]">visibility</span>
                                 </a>
@@ -177,7 +185,7 @@
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="6" class="text-center py-10 text-on-surface-variant">Belum ada data siswa.</td>
+                        <td colspan="8" class="text-center py-10 text-on-surface-variant">Belum ada data siswa.</td>
                     </tr>
                     @endforelse
                 </tbody>
@@ -231,8 +239,8 @@
                     </div>
                 </div>
                 <div class="flex justify-end gap-2 pt-2">
-                    <button type="button" @click="showAddModal = false" class="px-4 py-2 border border-outline-variant rounded-lg text-xs font-bold cursor-pointer">Batal</button>
-                    <button type="submit" class="px-4 py-2 bg-primary hover:bg-primary/95 text-white rounded-lg text-xs font-bold cursor-pointer">Simpan</button>
+                    <button type="button" @click="showAddModal = false" class="px-4 py-2 border border-outline-variant rounded-lg text-xs font-bold cursor-pointer hover:bg-surface transition-colors">Batal</button>
+                    <button type="submit" class="px-4 py-2 bg-primary hover:bg-primary/95 text-white rounded-lg text-xs font-bold cursor-pointer transition-colors">Simpan</button>
                 </div>
             </form>
         </div>
@@ -241,12 +249,12 @@
     <!-- Edit Modal -->
     <div x-show="showEditModal" x-transition class="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4" @click.self="showEditModal = false" x-cloak>
         <div class="bg-surface-container-lowest rounded-2xl p-6 w-full max-w-lg shadow-xl max-h-[90vh] overflow-y-auto">
-            <h3 class="font-h2 text-primary font-bold text-lg mb-4">Edit Siswa</h3>
+            <h3 class="font-h2 text-primary font-bold text-lg mb-4">Edit Data Siswa</h3>
             <form :action="'/admin/students/' + editStudent.id" method="POST" class="space-y-4" enctype="multipart/form-data">
                 @csrf @method('PUT')
                 <!-- Photo Upload -->
                 <div>
-                    <label class="block text-xs font-bold mb-1">Foto Profil <span class="text-outline font-normal">(opsional, kosongkan jika tidak diubah)</span></label>
+                    <label class="block text-xs font-bold mb-1">Foto Profil <span class="text-outline font-normal">(kosongkan jika tidak diubah)</span></label>
                     <input type="file" name="photo" accept="image/jpeg,image/png,image/webp"
                         class="w-full border border-outline-variant rounded-lg px-3 py-2 text-sm bg-surface file:mr-3 file:py-1 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-primary/10 file:text-primary cursor-pointer"/>
                 </div>
@@ -284,8 +292,8 @@
                     </div>
                 </div>
                 <div class="flex justify-end gap-2 pt-2">
-                    <button type="button" @click="showEditModal = false" class="px-4 py-2 border border-outline-variant rounded-lg text-xs font-bold cursor-pointer">Batal</button>
-                    <button type="submit" class="px-4 py-2 bg-primary hover:bg-primary/95 text-white rounded-lg text-xs font-bold cursor-pointer">Perbarui</button>
+                    <button type="button" @click="showEditModal = false" class="px-4 py-2 border border-outline-variant rounded-lg text-xs font-bold cursor-pointer hover:bg-surface transition-colors">Batal</button>
+                    <button type="submit" class="px-4 py-2 bg-primary hover:bg-primary/95 text-white rounded-lg text-xs font-bold cursor-pointer transition-colors">Perbarui</button>
                 </div>
             </form>
         </div>
