@@ -3,7 +3,22 @@
 @section('title', 'Data Siswa')
 
 @section('content')
-<div class="space-y-space-lg" x-data="{ showAddModal: false, showEditModal: false, editStudent: {}, loading: false }" @submit.document="loading = true">
+<div class="space-y-space-lg" x-data="{
+    showAddModal: false,
+    showEditModal: false,
+    editStudent: {},
+    loading: false,
+    init() {
+        @if(request('edit'))
+            const students = {{ Js::from($students) }};
+            const target = students.find(s => s.id == {{ request('edit', 0) }});
+            if (target) {
+                this.editStudent = target;
+                this.showEditModal = true;
+            }
+        @endif
+    }
+}" @submit.document="loading = true">
     
     <!-- Skeleton Screen -->
     <div x-show="loading" class="space-y-6 animate-pulse">
@@ -206,6 +221,14 @@
                             @endforeach
                         </select>
                     </div>
+                    <div>
+                        <label class="block text-xs font-bold mb-1">Tanggal Lahir <span class="text-outline font-normal">(opsional)</span></label>
+                        <input type="date" name="birth_date" class="w-full border border-outline-variant rounded-lg px-3 py-2 text-sm focus:ring-1 focus:ring-primary outline-none bg-surface"/>
+                    </div>
+                    <div class="sm:col-span-2">
+                        <label class="block text-xs font-bold mb-1">Alamat <span class="text-outline font-normal">(opsional)</span></label>
+                        <textarea name="address" rows="2" class="w-full border border-outline-variant rounded-lg px-3 py-2 text-sm focus:ring-1 focus:ring-primary outline-none bg-surface resize-none" placeholder="Masukkan alamat siswa..."></textarea>
+                    </div>
                 </div>
                 <div class="flex justify-end gap-2 pt-2">
                     <button type="button" @click="showAddModal = false" class="px-4 py-2 border border-outline-variant rounded-lg text-xs font-bold cursor-pointer">Batal</button>
@@ -233,11 +256,11 @@
                         <input type="text" name="nis" x-model="editStudent.nis" required class="w-full border border-outline-variant rounded-lg px-3 py-2 text-sm focus:ring-1 focus:ring-primary outline-none bg-surface"/>
                     </div>
                     <div>
-                        <label class="block text-xs font-bold mb-1">Nama</label>
+                        <label class="block text-xs font-bold mb-1">Nama Lengkap</label>
                         <input type="text" name="name" x-model="editStudent.name" required class="w-full border border-outline-variant rounded-lg px-3 py-2 text-sm focus:ring-1 focus:ring-primary outline-none bg-surface"/>
                     </div>
                     <div>
-                        <label class="block text-xs font-bold mb-1">Gender</label>
+                        <label class="block text-xs font-bold mb-1">Jenis Kelamin</label>
                         <select name="gender" x-model="editStudent.gender" required class="w-full border border-outline-variant rounded-lg px-3 py-2 text-sm bg-surface">
                             <option value="L">Laki-laki</option>
                             <option value="P">Perempuan</option>
@@ -250,6 +273,14 @@
                                 <option value="{{ $c->id }}">{{ $c->name }}</option>
                             @endforeach
                         </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold mb-1">Tanggal Lahir <span class="text-outline font-normal">(opsional)</span></label>
+                        <input type="date" name="birth_date" x-model="editStudent.birth_date" class="w-full border border-outline-variant rounded-lg px-3 py-2 text-sm focus:ring-1 focus:ring-primary outline-none bg-surface"/>
+                    </div>
+                    <div class="sm:col-span-2">
+                        <label class="block text-xs font-bold mb-1">Alamat <span class="text-outline font-normal">(opsional)</span></label>
+                        <textarea name="address" rows="2" x-model="editStudent.address" class="w-full border border-outline-variant rounded-lg px-3 py-2 text-sm focus:ring-1 focus:ring-primary outline-none bg-surface resize-none" placeholder="Masukkan alamat siswa..."></textarea>
                     </div>
                 </div>
                 <div class="flex justify-end gap-2 pt-2">

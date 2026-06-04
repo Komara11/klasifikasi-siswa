@@ -1,14 +1,14 @@
 @import "tailwindcss";
 
 @theme {
-  --color-primary: #1565C0;
-  --color-primary-container: #1E88E5;
+  --color-primary: #0D47A1;
+  --color-primary-container: #1565C0;
   --color-on-primary: #ffffff;
   --color-on-primary-container: #bbdefb;
   --color-primary-fixed: #d5e3ff;
   --color-primary-fixed-dim: #90caf9;
-  --color-on-primary-fixed: #0d47a1;
-  --color-on-primary-fixed-variant: #1976D2;
+  --color-on-primary-fixed: #0a3d8f;
+  --color-on-primary-fixed-variant: #1256a0;
 
   --color-secondary: #4a607a;
   --color-secondary-container: #c7dffd;
@@ -85,7 +85,7 @@ select, .custom-select {
     appearance: none !important;
     -webkit-appearance: none !important;
     -moz-appearance: none !important;
-    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%231565C0' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e") !important;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230D47A1' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e") !important;
     background-repeat: no-repeat !important;
     background-position: right 0.85rem center !important;
     background-size: 1.1em !important;
@@ -97,11 +97,11 @@ select, .custom-select {
 }
 
 select:hover, .custom-select:hover {
-    border-color: #1565C0 !important;
+    border-color: #0D47A1 !important;
 }
 
 select:focus, .custom-select:focus {
-    box-shadow: 0 0 0 3px rgba(21, 101, 192, 0.12) !important;
+    box-shadow: 0 0 0 3px rgba(13, 71, 161, 0.12) !important;
     border-color: #1565C0 !important;
     outline: none !important;
 }
@@ -193,7 +193,7 @@ select:focus, .custom-select:focus {
     }
     
     .certificate-border {
-        border: 4px double #1565C0 !important;
+        border: 4px double #0D47A1 !important;
         padding: 2rem !important;
     }
 }

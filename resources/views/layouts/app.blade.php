@@ -182,7 +182,7 @@
             </main>
             
             <footer class="no-print px-gutter py-space-md border-t border-outline-variant/30 flex flex-col sm:flex-row justify-between items-center gap-2 text-body-sm text-on-surface-variant bg-surface shrink-0 text-center sm:text-left">
-                <p>© {{ date('Y') }} Sistem Klasifikasi Siswa</p>
+                <p>© {{ date('Y') }} {{ \App\Models\Setting::getValue('school_name', 'SMP Negeri 1 Sumber') }}. Sistem Klasifikasi Siswa.</p>
                 <p class="font-label-caps text-[10px] tracking-wider text-outline">V.1.0.0</p>
             </footer>
         </div>
