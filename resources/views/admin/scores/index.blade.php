@@ -122,7 +122,17 @@
         @if($selectedStudent)
         <!-- Score Input Form -->
         <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-space-lg shadow-sm">
-            <h3 class="font-h2 text-primary font-bold mb-4">Nilai Semester: {{ $selectedStudent->name }} <span class="text-outline font-normal text-sm">({{ $selectedStudent->classroom->name }})</span></h3>
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mb-4">
+                <h3 class="font-h2 text-primary font-bold">Nilai Semester: {{ $selectedStudent->name }} <span class="text-outline font-normal text-sm">({{ $selectedStudent->classroom->name }})</span></h3>
+                <div class="flex items-center gap-2 w-full sm:w-auto">
+                    <a href="{{ route('admin.transcripts.show', $selectedStudent) }}" class="flex-1 sm:flex-none inline-flex items-center justify-center gap-1.5 px-4 py-2 bg-primary hover:bg-primary/90 text-white rounded-lg text-[11px] font-bold transition-all active:scale-95">
+                        <span class="material-symbols-outlined text-[14px]">description</span> Lihat Transkrip
+                    </a>
+                    <a href="{{ route('admin.transcripts.pdf', $selectedStudent) }}" class="flex-1 sm:flex-none inline-flex items-center justify-center gap-1.5 px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg text-[11px] font-bold transition-all active:scale-95">
+                        <span class="material-symbols-outlined text-[14px]">picture_as_pdf</span> Unduh PDF
+                    </a>
+                </div>
+            </div>
 
             @for($sem = 1; $sem <= 5; $sem++)
             <form method="POST" action="{{ route('admin.scores.store') }}" class="mb-6" @submit="loading = true">

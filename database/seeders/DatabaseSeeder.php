@@ -38,13 +38,18 @@ class DatabaseSeeder extends Seeder
         $ixC = Classroom::create(['name' => 'IX-C', 'grade' => 'IX', 'academic_year' => '2025/2026']);
         $ixD = Classroom::create(['name' => 'IX-D', 'grade' => 'IX', 'academic_year' => '2025/2026']);
 
-        // === SUBJECTS ===
+        // === SUBJECTS (11 Mata Pelajaran SMP) ===
+        Subject::create(['name' => 'Pendidikan Agama dan Budi Pekerti', 'code' => 'agama', 'weight' => 0.80]);
+        Subject::create(['name' => 'Pendidikan Pancasila', 'code' => 'ppkn', 'weight' => 0.80]);
+        Subject::create(['name' => 'Bahasa Indonesia', 'code' => 'bahasa_indonesia', 'weight' => 1.00]);
         Subject::create(['name' => 'Matematika', 'code' => 'matematika', 'weight' => 1.20]);
         Subject::create(['name' => 'Ilmu Pengetahuan Alam', 'code' => 'ipa', 'weight' => 1.20]);
         Subject::create(['name' => 'Ilmu Pengetahuan Sosial', 'code' => 'ips', 'weight' => 1.10]);
-        Subject::create(['name' => 'Bahasa Indonesia', 'code' => 'bahasa_indonesia', 'weight' => 1.00]);
         Subject::create(['name' => 'Bahasa Inggris', 'code' => 'bahasa_inggris', 'weight' => 1.10]);
-        Subject::create(['name' => 'Seni Budaya', 'code' => 'seni_budaya', 'weight' => 0.80]);
+        Subject::create(['name' => 'Pendidikan Jasmani, Olahraga dan Kesehatan', 'code' => 'pjok', 'weight' => 0.70]);
+        Subject::create(['name' => 'Informatika', 'code' => 'informatika', 'weight' => 0.90]);
+        Subject::create(['name' => 'Seni dan Budaya', 'code' => 'seni_budaya', 'weight' => 0.80]);
+        Subject::create(['name' => 'Bahasa Cirebon', 'code' => 'bahasa_cirebon', 'weight' => 0.70]);
 
         // === QUESTIONNAIRE QUESTIONS ===
         QuestionnaireQuestion::create(['question' => 'Saya senang memecahkan soal matematika atau teka-teki logika.', 'category' => 'IPA', 'weight' => 0.80]);
@@ -64,6 +69,7 @@ class DatabaseSeeder extends Seeder
 
         // === SETTINGS ===
         Setting::setValue('school_name', 'SMP Negeri 1 Sumber');
+        Setting::setValue('school_address', 'Jl. Nyi Mas Gandasari No.2, Sumber, Kec. Sumber, Kab. Cirebon, Jawa Barat 45611');
         Setting::setValue('academic_year', '2025/2026');
         Setting::setValue('school_logo', null);
         Setting::setValue('principal_name', 'Drs. H. Sudrajat, M.M.');

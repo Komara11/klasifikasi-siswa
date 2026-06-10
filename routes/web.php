@@ -10,6 +10,7 @@ use App\Http\Controllers\ResultController;
 use App\Http\Controllers\ScoreController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\StudentController;
+use App\Http\Controllers\TranscriptController;
 use Illuminate\Support\Facades\Route;
 
 // === PUBLIC ROUTES ===
@@ -36,6 +37,10 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     // Scores
     Route::get('/scores', [ScoreController::class, 'index'])->name('scores.index');
     Route::post('/scores', [ScoreController::class, 'store'])->name('scores.store');
+
+    // Transcripts
+    Route::get('/transcripts/{student}', [TranscriptController::class, 'show'])->name('transcripts.show');
+    Route::get('/transcripts/{student}/pdf', [TranscriptController::class, 'downloadPdf'])->name('transcripts.pdf');
 
     // Questionnaires
     Route::get('/questionnaires', [QuestionnaireController::class, 'index'])->name('questionnaires.index');
