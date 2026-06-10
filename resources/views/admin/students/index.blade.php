@@ -90,8 +90,8 @@
                         @if($student->photo)
                             <img src="{{ asset('storage/' . $student->photo) }}" alt="{{ $student->name }}" class="w-10 h-10 rounded-full object-cover border border-outline-variant/30">
                         @else
-                            <div class="w-10 h-10 rounded-full flex items-center justify-center {{ $student->gender === 'L' ? 'bg-blue-50 text-blue-600' : 'bg-pink-50 text-pink-600' }}">
-                                <span class="material-symbols-outlined text-[20px]">person</span>
+                            <div class="w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm uppercase tracking-wider {{ $student->gender === 'L' ? 'bg-blue-50 text-blue-600' : 'bg-pink-50 text-pink-600' }}">
+                                {{ substr($student->name, 0, 2) }}
                             </div>
                         @endif
                     </div>
@@ -152,8 +152,8 @@
                             @if($student->photo)
                                 <img src="{{ asset('storage/' . $student->photo) }}" alt="{{ $student->name }}" class="w-9 h-9 rounded-full object-cover border border-outline-variant/20">
                             @else
-                                <div class="w-9 h-9 rounded-full flex items-center justify-center {{ $student->gender === 'L' ? 'bg-blue-50 text-blue-500' : 'bg-pink-50 text-pink-500' }}">
-                                    <span class="material-symbols-outlined text-[18px]">person</span>
+                                <div class="w-9 h-9 rounded-full flex items-center justify-center font-bold text-xs uppercase tracking-wider {{ $student->gender === 'L' ? 'bg-blue-50 text-blue-500' : 'bg-pink-50 text-pink-500' }}">
+                                    {{ substr($student->name, 0, 2) }}
                                 </div>
                             @endif
                         </td>

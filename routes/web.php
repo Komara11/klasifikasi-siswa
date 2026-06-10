@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', fn() => redirect('/cek-hasil'));
 Route::get('/cek-hasil', [PublicController::class, 'cekHasil'])->name('cek-hasil');
 Route::post('/cek-hasil', [PublicController::class, 'cekHasilSearch'])->name('cek-hasil.search');
+Route::get('/cek-hasil/transkrip/{student}/pdf', [App\Http\Controllers\TranscriptController::class, 'downloadPdf'])->name('public.transcripts.pdf');
 
 // === AUTH ROUTES ===
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');

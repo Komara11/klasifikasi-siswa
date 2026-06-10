@@ -34,8 +34,8 @@
                         <img src="{{ asset('storage/' . $student->photo) }}" alt="{{ $student->name }}"
                              class="w-20 h-20 sm:w-24 sm:h-24 rounded-xl object-cover border-[3px] border-white shadow-md bg-white">
                     @else
-                        <div class="w-20 h-20 sm:w-24 sm:h-24 rounded-xl border-[3px] border-white shadow-md flex items-center justify-center text-xl sm:text-2xl font-bold {{ $student->gender === 'L' ? 'bg-blue-50 text-blue-600' : 'bg-pink-50 text-pink-600' }}">
-                            <span class="material-symbols-outlined text-[36px] sm:text-[42px]">person</span>
+                        <div class="w-20 h-20 sm:w-24 sm:h-24 rounded-xl border-[3px] border-white shadow-md flex items-center justify-center text-3xl sm:text-4xl font-bold uppercase tracking-wider {{ $student->gender === 'L' ? 'bg-blue-50 text-blue-600' : 'bg-pink-50 text-pink-600' }}">
+                            {{ substr($student->name, 0, 2) }}
                         </div>
                     @endif
                 </div>

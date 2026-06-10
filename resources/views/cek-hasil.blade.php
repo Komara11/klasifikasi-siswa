@@ -253,12 +253,16 @@
                         </div>
                     </div>
 
-                    {{-- Print Button --}}
-                    <div class="flex justify-center pt-2 no-print">
-                        <button type="button" onclick="window.print()" class="bg-primary text-white px-6 py-2.5 rounded-xl text-sm font-semibold cursor-pointer transition-all hover:bg-primary/90 active:scale-[0.97] flex items-center gap-2">
+                    {{-- Action Buttons --}}
+                    <div class="flex flex-col sm:flex-row justify-center gap-3 pt-2 no-print">
+                        <button type="button" onclick="window.print()" class="bg-primary text-white px-6 py-2.5 rounded-xl text-sm font-semibold cursor-pointer transition-all hover:bg-primary/90 active:scale-[0.97] flex items-center justify-center gap-2">
                             <span class="material-symbols-outlined text-[18px]">print</span>
-                            Cetak Berkas Rekomendasi
+                            Cetak Rekomendasi
                         </button>
+                        <a href="{{ route('public.transcripts.pdf', $student) }}" target="_blank" class="bg-red-600 text-white px-6 py-2.5 rounded-xl text-sm font-semibold cursor-pointer transition-all hover:bg-red-700 active:scale-[0.97] flex items-center justify-center gap-2">
+                            <span class="material-symbols-outlined text-[18px]">picture_as_pdf</span>
+                            Unduh Transkrip
+                        </a>
                     </div>
                 </div>
             </div>
