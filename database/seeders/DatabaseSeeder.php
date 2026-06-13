@@ -75,14 +75,6 @@ class DatabaseSeeder extends Seeder
         Setting::setValue('principal_name', 'Drs. H. Sudrajat, M.M.');
         Setting::setValue('principal_nip', '19680312 199403 1 005');
 
-        // === DUMMY STUDENTS (Sementara untuk preview) ===
-        Student::create(['nis' => '20250001', 'name' => 'Ahmad Rizky Pratama', 'gender' => 'L', 'classroom_id' => $ixA->id, 'birth_date' => '2011-03-15', 'address' => 'Jl. Merdeka No. 12, Sumber']);
-        Student::create(['nis' => '20250002', 'name' => 'Siti Nurhaliza', 'gender' => 'P', 'classroom_id' => $ixA->id, 'birth_date' => '2011-07-22', 'address' => 'Jl. Sudirman No. 5, Sumber']);
-        Student::create(['nis' => '20250003', 'name' => 'Muhammad Fajar', 'gender' => 'L', 'classroom_id' => $ixB->id, 'birth_date' => '2011-01-10', 'address' => 'Desa Karangmulya RT 02/05']);
-        Student::create(['nis' => '20250004', 'name' => 'Aisyah Putri Ramadhani', 'gender' => 'P', 'classroom_id' => $ixB->id, 'birth_date' => '2011-12-01', 'address' => 'Jl. Ahmad Yani No. 8, Sumber']);
-        Student::create(['nis' => '20250005', 'name' => 'Dimas Arya Putra', 'gender' => 'L', 'classroom_id' => $ixC->id, 'birth_date' => '2011-05-20']);
-        Student::create(['nis' => '20250006', 'name' => 'Nabila Zahra', 'gender' => 'P', 'classroom_id' => $ixC->id, 'birth_date' => '2011-09-14', 'address' => 'Perumahan Griya Indah Blok C3']);
-        Student::create(['nis' => '20250007', 'name' => 'Rendi Setiawan', 'gender' => 'L', 'classroom_id' => $ixD->id]);
-        Student::create(['nis' => '20250008', 'name' => 'Dewi Anggraini', 'gender' => 'P', 'classroom_id' => $ixD->id, 'birth_date' => '2011-11-30', 'address' => 'Jl. Raya Sumber-Cirebon KM 3']);
+
     }
 }

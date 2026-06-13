@@ -58,6 +58,39 @@
             </button>
         </div>
 
+        {{-- Bulk Import from Excel Document --}}
+        <div x-data="{ showBulk: false }">
+            <button @click="showBulk = !showBulk" class="w-full sm:w-auto inline-flex items-center gap-2 px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold transition-colors cursor-pointer mb-2">
+                <span class="material-symbols-outlined text-[16px]">upload_file</span>
+                Import Data Massal dari Excel (.xlsx)
+                <span class="material-symbols-outlined text-[14px] transition-transform" :class="showBulk && 'rotate-180'">expand_more</span>
+            </button>
+
+            <div x-show="showBulk" x-cloak x-transition class="mb-4 border border-emerald-200 bg-emerald-50/50 rounded-xl p-5">
+                <div class="flex items-start gap-3 mb-4">
+                    <div class="w-10 h-10 rounded-lg bg-emerald-100 text-emerald-600 flex items-center justify-center shrink-0">
+                        <span class="material-symbols-outlined text-xl">description</span>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-sm text-emerald-800">Import Massal dari Dokumen Excel Penelitian</h4>
+                        <p class="text-[11px] text-emerald-600 mt-0.5">Upload file Excel (.xlsx) berformat data penelitian UMC. Sistem akan otomatis membaca dan membuat data Kelas, Siswa, Mata Pelajaran, serta seluruh Nilai Rapor Semester 1-5.</p>
+                    </div>
+                </div>
+                <form method="POST" action="{{ route('admin.scores.importBulk') }}" enctype="multipart/form-data" @submit="loading = true">
+                    @csrf
+                    <div class="flex flex-col sm:flex-row items-start sm:items-end gap-3">
+                        <div class="flex-1 w-full">
+                            <input type="file" name="bulk_file" accept=".xlsx" required
+                                class="w-full text-xs file:mr-3 file:py-2 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-emerald-100 file:text-emerald-700 hover:file:bg-emerald-200 file:cursor-pointer border border-emerald-200 rounded-lg cursor-pointer bg-white"/>
+                        </div>
+                        <button type="submit" class="w-full sm:w-auto inline-flex items-center justify-center gap-1.5 px-6 py-2.5 bg-primary hover:bg-primary/90 text-white rounded-lg text-xs font-bold transition-all cursor-pointer whitespace-nowrap">
+                            <span class="material-symbols-outlined text-[16px]">cloud_upload</span> Import Semua Data
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
         <!-- Search Bar -->
         <div class="bg-surface-container-lowest border border-outline-variant rounded-xl shadow-sm">
             <form method="GET" action="{{ route('admin.students.index') }}" class="flex flex-col sm:flex-row items-stretch">
@@ -113,7 +146,7 @@
                     <button @click="editStudent = {{ json_encode($student) }}; showEditModal = true" class="p-1.5 hover:bg-primary/10 rounded-lg text-primary transition-colors cursor-pointer" title="Edit">
                         <span class="material-symbols-outlined text-[16px]">edit</span>
                     </button>
-                    <form method="POST" action="{{ route('admin.students.destroy', $student) }}" x-ref="deleteFormMobile{{ $student->id }}" @submit.prevent.stop="triggerConfirm('Hapus Data Siswa', 'Apakah Anda yakin ingin menghapus data siswa {{ $student->name }} secara permanen?', 'Ya, Hapus', 'danger', () => { loading = true; $refs.deleteFormMobile{{ $student->id }}.submit(); })" class="inline">
+                    <form method="POST" action="{{ route('admin.students.destroy', $student) }}" x-ref="deleteFormMobile{{ $student->id }}" @submit.prevent.stop="triggerConfirm('Hapus Data Siswa', 'Apakah Anda yakin ingin menghapus data siswa {{ addslashes($student->name) }} secara permanen?', 'Ya, Hapus', 'danger', () => { loading = true; $refs.deleteFormMobile{{ $student->id }}.submit(); })" class="inline">
                         @csrf @method('DELETE')
                         <button type="submit" class="p-1.5 hover:bg-red-50 rounded-lg text-red-500 transition-colors cursor-pointer" title="Hapus">
                             <span class="material-symbols-outlined text-[16px]">delete</span>
@@ -174,7 +207,7 @@
                                 <button @click="editStudent = {{ json_encode($student) }}; showEditModal = true" class="p-1.5 hover:bg-primary/10 rounded-lg text-primary transition-colors cursor-pointer" title="Edit">
                                     <span class="material-symbols-outlined text-[16px]">edit</span>
                                 </button>
-                                <form method="POST" action="{{ route('admin.students.destroy', $student) }}" x-ref="deleteForm{{ $student->id }}" @submit.prevent.stop="triggerConfirm('Hapus Data Siswa', 'Apakah Anda yakin ingin menghapus data siswa {{ $student->name }} secara permanen?', 'Ya, Hapus', 'danger', () => { loading = true; $refs.deleteForm{{ $student->id }}.submit(); })" class="inline">
+                                <form method="POST" action="{{ route('admin.students.destroy', $student) }}" x-ref="deleteForm{{ $student->id }}" @submit.prevent.stop="triggerConfirm('Hapus Data Siswa', 'Apakah Anda yakin ingin menghapus data siswa {{ addslashes($student->name) }} secara permanen?', 'Ya, Hapus', 'danger', () => { loading = true; $refs.deleteForm{{ $student->id }}.submit(); })" class="inline">
                                     @csrf @method('DELETE')
                                     <button type="submit" class="p-1.5 hover:bg-red-50 rounded-lg text-red-500 transition-colors cursor-pointer" title="Hapus">
                                         <span class="material-symbols-outlined text-[16px]">delete</span>

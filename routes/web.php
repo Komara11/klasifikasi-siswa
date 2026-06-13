@@ -38,6 +38,9 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     // Scores
     Route::get('/scores', [ScoreController::class, 'index'])->name('scores.index');
     Route::post('/scores', [ScoreController::class, 'store'])->name('scores.store');
+    Route::get('/scores/template/{student}', [ScoreController::class, 'downloadTemplate'])->name('scores.template');
+    Route::post('/scores/import', [ScoreController::class, 'importFile'])->name('scores.import');
+    Route::post('/scores/import-bulk', [ScoreController::class, 'importBulkExcel'])->name('scores.importBulk');
 
     // Transcripts
     Route::get('/transcripts/{student}', [TranscriptController::class, 'show'])->name('transcripts.show');
@@ -60,6 +63,9 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
 
     // Results
     Route::get('/results', [ResultController::class, 'index'])->name('results.index');
+
+    // Referensi
+    Route::get('/referensi', [\App\Http\Controllers\ReferensiController::class, 'index'])->name('referensi.index');
 
     // Reports
     Route::get('/reports', [ReportController::class, 'adminIndex'])->name('reports.index');

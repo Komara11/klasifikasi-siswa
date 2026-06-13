@@ -99,6 +99,9 @@
                     <a class="flex items-center gap-3 px-4 py-3 rounded-lg hover:text-on-primary hover:bg-primary-container/10 transition-colors duration-200 {{ str_contains($path, 'admin/reports') ? 'sidebar-item-active text-on-primary' : '' }}" href="{{ route('admin.reports.index') }}">
                         <span class="material-symbols-outlined">assessment</span><span class="font-body-base">Laporan</span>
                     </a>
+                    <a class="flex items-center gap-3 px-4 py-3 rounded-lg hover:text-on-primary hover:bg-primary-container/10 transition-colors duration-200 {{ str_contains($path, 'admin/referensi') ? 'sidebar-item-active text-on-primary' : '' }}" href="{{ route('admin.referensi.index') }}">
+                        <span class="material-symbols-outlined">menu_book</span><span class="font-body-base">Referensi</span>
+                    </a>
                     <a class="flex items-center gap-3 px-4 py-3 rounded-lg hover:text-on-primary hover:bg-primary-container/10 transition-colors duration-200 border-t border-primary-container mt-4 pt-4 {{ str_contains($path, 'admin/settings') ? 'sidebar-item-active text-on-primary' : '' }}" href="{{ route('admin.settings.index') }}">
                         <span class="material-symbols-outlined">settings</span><span class="font-body-base">Pengaturan</span>
                     </a>

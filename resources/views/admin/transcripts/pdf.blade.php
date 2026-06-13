@@ -4,21 +4,24 @@
     <meta charset="utf-8">
     <title>Transkrip Nilai - {{ $student->name }}</title>
     <style>
-        @page { margin: 20mm 15mm 20mm 15mm; }
+        @page { margin: 15mm 15mm 15mm 15mm; }
 
         body {
-            font-family: 'DejaVu Sans', sans-serif;
-            font-size: 10px;
-            color: #222;
-            line-height: 1.5;
+            font-family: 'Times New Roman', 'DejaVu Serif', serif;
+            font-size: 11px;
+            color: #000;
+            line-height: 1.4;
+            margin: 0;
+            padding: 0;
         }
 
-        /* Header */
+        /* ===== HEADER / KOP SURAT ===== */
         .header-table {
             width: 100%;
-            border-bottom: 3px double #0D47A1;
-            padding-bottom: 10px;
-            margin-bottom: 8px;
+            border-collapse: collapse;
+            border-bottom: 3px solid #000;
+            padding-bottom: 5px;
+            margin-bottom: 5px;
         }
         .header-table td {
             vertical-align: middle;
@@ -26,150 +29,152 @@
             padding: 0;
         }
         .header-logo {
-            width: 65px;
+            width: 70px;
             text-align: center;
         }
         .header-logo img {
-            width: 55px;
+            width: 60px;
             height: auto;
         }
         .header-text {
             text-align: center;
-            padding-left: 10px;
+            padding: 0 10px;
         }
-        .header-text h1 {
-            font-size: 16px;
+        .header-text .institution {
+            font-size: 11px;
             margin: 0;
-            color: #0D47A1;
+            text-transform: uppercase;
+        }
+        .header-text .school-name {
+            font-size: 16px;
+            font-weight: bold;
+            margin: 2px 0;
             text-transform: uppercase;
             letter-spacing: 1px;
         }
         .header-text .accreditation {
             font-size: 9px;
-            color: #555;
-            margin: 2px 0;
+            margin: 1px 0;
+            font-weight: bold;
         }
         .header-text .address {
-            font-size: 8.5px;
-            color: #666;
+            font-size: 9px;
             margin: 1px 0;
         }
+        .header-line {
+            border: none;
+            border-top: 1px solid #000;
+            margin: 2px 0 0 0;
+        }
 
-        /* Title */
+        /* ===== TITLE ===== */
         .doc-title {
             text-align: center;
-            margin: 15px 0 12px 0;
+            margin: 18px 0 5px 0;
         }
         .doc-title h2 {
             font-size: 14px;
             margin: 0;
             text-decoration: underline;
             text-transform: uppercase;
-            letter-spacing: 2px;
-            color: #222;
+            letter-spacing: 3px;
+            font-weight: bold;
         }
         .doc-title .doc-number {
-            font-size: 9px;
-            color: #555;
+            font-size: 10px;
             margin-top: 2px;
         }
 
-        /* Student Info */
+        /* ===== STUDENT INFO ===== */
         .student-info {
-            margin: 12px 0 15px 0;
+            margin: 15px 0 12px 0;
         }
         .student-info table {
             border-collapse: collapse;
         }
         .student-info td {
-            padding: 2px 0;
+            padding: 1.5px 0;
             border: none;
-            font-size: 10px;
+            font-size: 11px;
             vertical-align: top;
         }
         .student-info .label {
-            width: 150px;
-            color: #333;
+            width: 180px;
         }
         .student-info .separator {
-            width: 15px;
+            width: 12px;
             text-align: center;
         }
         .student-info .value {
-            font-weight: bold;
-            color: #111;
+            text-transform: uppercase;
         }
 
-        /* Score Table */
+        /* ===== SCORE TABLE ===== */
         table.score-table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 8px;
+            margin-top: 5px;
+        }
+        table.score-table th,
+        table.score-table td {
+            border: 1px solid #000;
+            padding: 4px 5px;
+            font-size: 10px;
+            vertical-align: middle;
         }
         table.score-table th {
-            background: #0D47A1;
-            color: white;
-            padding: 6px 5px;
+            background: none;
+            color: #000;
             text-align: center;
-            font-size: 9px;
             font-weight: bold;
-            border: 1px solid #093d8a;
-        }
-        table.score-table th.subject-col {
-            text-align: left;
-            padding-left: 8px;
+            font-size: 10px;
         }
         table.score-table td {
-            padding: 5px 5px;
-            border: 1px solid #c0c8d4;
-            font-size: 9.5px;
             text-align: center;
-            vertical-align: middle;
         }
         table.score-table td.subject-name {
             text-align: left;
             padding-left: 8px;
         }
-        table.score-table tr:nth-child(even) {
-            background: #f7f9fc;
-        }
-        table.score-table tr.summary-row td {
-            font-weight: bold;
-            background: #e8edf5;
-            border-top: 2px solid #0D47A1;
-            font-size: 10px;
+        table.score-table td.no-col {
+            text-align: center;
+            width: 25px;
         }
 
-        /* Signature */
+        /* Semester header spanning */
+        table.score-table th.semester-group {
+            text-align: center;
+            font-weight: bold;
+        }
+
+        /* Summary row */
+        table.score-table tr.summary-row td {
+            font-weight: bold;
+            border-top: 2px solid #000;
+        }
+
+        /* ===== SIGNATURE ===== */
         .signature {
-            margin-top: 30px;
+            margin-top: 25px;
             text-align: right;
             page-break-inside: avoid;
         }
-        .signature p { margin: 2px 0; font-size: 10px; }
+        .signature p {
+            margin: 2px 0;
+            font-size: 11px;
+        }
         .signature .name {
             font-weight: bold;
             text-decoration: underline;
-            margin-top: 55px;
+            margin-top: 60px;
         }
         .signature .nip {
-            font-size: 9px;
-            color: #555;
-        }
-
-        /* Footer */
-        .footer-note {
-            margin-top: 20px;
-            padding-top: 6px;
-            border-top: 1px solid #d9e2ec;
-            font-size: 7.5px;
-            color: #999;
-            text-align: center;
+            font-size: 10px;
         }
     </style>
 </head>
 <body>
-    <!-- Header -->
+    {{-- ===== KOP SURAT ===== --}}
     <table class="header-table">
         <tr>
             @if($logoPath)
@@ -178,30 +183,40 @@
             </td>
             @endif
             <td class="header-text">
-                <p class="accreditation" style="margin:0">PEMERINTAH KABUPATEN CIREBON</p>
-                <p class="accreditation" style="margin:0">DINAS PENDIDIKAN</p>
-                <h1>{{ $settings['school_name'] }}</h1>
+                <p class="institution">Pemerintah Kabupaten Cirebon</p>
+                <p class="institution">Dinas Pendidikan</p>
+                <p class="school-name">{{ $settings['school_name'] }}</p>
+                @if(!empty($settings['school_address']))
                 <p class="address">{{ $settings['school_address'] }}</p>
+                @endif
             </td>
         </tr>
     </table>
+    <hr class="header-line">
 
-    <!-- Document Title -->
+    {{-- ===== JUDUL DOKUMEN ===== --}}
     <div class="doc-title">
-        <h2>Transkrip Nilai</h2>
+        <h2>Transkip Nilai</h2>
         <p class="doc-number">Tahun Ajaran {{ $settings['academic_year'] }}</p>
     </div>
 
-    <!-- Student Info -->
+    {{-- ===== INFO SISWA ===== --}}
     <div class="student-info">
         <table>
             <tr>
-                <td class="label">Nama Siswa</td>
+                <td class="label">Nama</td>
                 <td class="separator">:</td>
                 <td class="value">{{ strtoupper($student->name) }}</td>
             </tr>
+            @if($student->birth_date)
             <tr>
-                <td class="label">Nomor Induk Siswa (NIS)</td>
+                <td class="label">Tempat dan Tanggal Lahir</td>
+                <td class="separator">:</td>
+                <td class="value">{{ \Carbon\Carbon::parse($student->birth_date)->translatedFormat('d F Y') }}</td>
+            </tr>
+            @endif
+            <tr>
+                <td class="label">Nomor Induk Siswa /NIS</td>
                 <td class="separator">:</td>
                 <td class="value">{{ $student->nis }}</td>
             </tr>
@@ -215,17 +230,10 @@
                 <td class="separator">:</td>
                 <td class="value">{{ $student->classroom->name }}</td>
             </tr>
-            @if($student->birth_date)
-            <tr>
-                <td class="label">Tanggal Lahir</td>
-                <td class="separator">:</td>
-                <td class="value">{{ \Carbon\Carbon::parse($student->birth_date)->translatedFormat('d F Y') }}</td>
-            </tr>
-            @endif
         </table>
     </div>
 
-    <!-- Score Table -->
+    {{-- ===== TABEL NILAI ===== --}}
     @php
         $semesters = [1, 2, 3, 4, 5];
         $totalAll = 0;
@@ -235,12 +243,15 @@
     <table class="score-table">
         <thead>
             <tr>
-                <th style="width: 25px;">No</th>
-                <th class="subject-col">Mata Pelajaran</th>
+                <th rowspan="2" style="width: 25px;">No</th>
+                <th rowspan="2" style="text-align: left; padding-left: 8px;">Mata Pelajaran</th>
+                <th colspan="{{ count($semesters) }}" class="semester-group">Nilai Semester</th>
+                <th rowspan="2" style="width: 50px;">Nilai<br>Rata-<br>rata</th>
+            </tr>
+            <tr>
                 @foreach($semesters as $sem)
-                <th style="width: 45px;">Smt {{ $sem }}</th>
+                <th style="width: 35px;">{{ $sem }}</th>
                 @endforeach
-                <th style="width: 55px;">Rata-rata</th>
             </tr>
         </thead>
         <tbody>
@@ -255,47 +266,40 @@
                         $subjectCount++;
                     }
                 }
-                $subjectAvg = $subjectCount > 0 ? round($subjectTotal / $subjectCount, 1) : null;
+                $subjectAvg = $subjectCount > 0 ? round($subjectTotal / $subjectCount, 0) : null;
                 if ($subjectAvg !== null) {
                     $totalAll += $subjectAvg;
                     $countAll++;
                 }
             @endphp
             <tr>
-                <td>{{ $idx + 1 }}</td>
+                <td class="no-col">{{ $idx + 1 }}</td>
                 <td class="subject-name">{{ $subj->name }}</td>
                 @foreach($semesters as $sem)
                 <td>{{ isset($scores[$sem][$subj->id]) ? number_format($scores[$sem][$subj->id]->score, 0) : '-' }}</td>
                 @endforeach
-                <td style="font-weight: bold;">{{ $subjectAvg !== null ? number_format($subjectAvg, 1) : '-' }}</td>
+                <td style="font-weight: bold;">{{ $subjectAvg !== null ? $subjectAvg : '-' }}</td>
             </tr>
             @endforeach
 
-            <!-- Summary Rows -->
+            {{-- Rata-rata Kumulatif --}}
             <tr class="summary-row">
-                <td colspan="2" style="text-align: right; padding-right: 10px;">Total Nilai</td>
-                <td colspan="{{ count($semesters) }}"></td>
-                <td>{{ $countAll > 0 ? number_format($totalAll, 1) : '-' }}</td>
-            </tr>
-            <tr class="summary-row">
-                <td colspan="2" style="text-align: right; padding-right: 10px;">Rata-rata Kumulatif</td>
-                <td colspan="{{ count($semesters) }}"></td>
-                <td>{{ $countAll > 0 ? number_format($totalAll / $countAll, 1) : '-' }}</td>
+                <td colspan="2" style="text-align: right; padding-right: 10px; font-weight: bold; font-style: italic;">Nilai Rata — rata Kumulatif</td>
+                @foreach($semesters as $sem)
+                <td></td>
+                @endforeach
+                <td style="font-weight: bold;">{{ $countAll > 0 ? round($totalAll / $countAll, 0) : '-' }}</td>
             </tr>
         </tbody>
     </table>
 
-    <!-- Footer Note -->
-    <div class="footer-note">
-        Dokumen ini dihasilkan secara otomatis oleh Sistem Klasifikasi Siswa — {{ $settings['school_name'] }}
-    </div>
-
-    <!-- Signature -->
+    {{-- ===== TANDA TANGAN ===== --}}
     <div class="signature">
         <p>Sumber, {{ now()->translatedFormat('d F Y') }}</p>
-        <p>Kepala {{ $settings['school_name'] }},</p>
+        <p>Kepala Sekolah,</p>
         <p class="name">{{ $settings['principal_name'] }}</p>
         <p class="nip">NIP. {{ $settings['principal_nip'] }}</p>
     </div>
+
 </body>
 </html>
