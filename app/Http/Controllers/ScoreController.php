@@ -264,14 +264,14 @@ class ScoreController extends Controller
         // Each subject spans 7 columns: Sem1, Sem2, Sem3, Sem4, Sem5, Sem6, RT(rata-rata)
 
         $subjectMap = [
-            'PAIBP'        => ['name' => 'Pendidikan Agama dan Budi Pekerti', 'code' => 'pendidikan_agama_dan_budi_pekerti', 'start' => 7],
-            'PKN'          => ['name' => 'Pendidikan Pancasila',              'code' => 'pendidikan_pancasila',              'start' => 14],
+            'PAIBP'        => ['name' => 'Pendidikan Agama dan Budi Pekerti', 'code' => 'agama', 'start' => 7],
+            'PKN'          => ['name' => 'Pendidikan Pancasila',              'code' => 'ppkn',              'start' => 14],
             'B.INDO'       => ['name' => 'Bahasa Indonesia',                  'code' => 'bahasa_indonesia',                  'start' => 21],
             'MTK'          => ['name' => 'Matematika',                        'code' => 'matematika',                        'start' => 28],
             'IPA'          => ['name' => 'Ilmu Pengetahuan Alam',             'code' => 'ipa',                               'start' => 35],
             'IPS'          => ['name' => 'Ilmu Pengetahuan Sosial',           'code' => 'ips',                               'start' => 42],
             'B. INGGRIS'   => ['name' => 'Bahasa Inggris',                    'code' => 'bahasa_inggris',                    'start' => 49],
-            'PJOK'         => ['name' => 'Pendidikan Jasmani, Olahraga dan Kesehatan', 'code' => 'pendidikan_jasmani_olahraga_dan_kesehatan', 'start' => 56],
+            'PJOK'         => ['name' => 'Pendidikan Jasmani, Olahraga dan Kesehatan', 'code' => 'pjok', 'start' => 56],
             'INFORMATIKA'  => ['name' => 'Informatika',                       'code' => 'informatika',                       'start' => 63],
             'SENI BUDAYA'  => ['name' => 'Seni dan Budaya',                   'code' => 'seni_budaya',                       'start' => 70],
             'B. CIREBON'   => ['name' => 'Bahasa Cirebon',                    'code' => 'bahasa_cirebon',                    'start' => 77],
