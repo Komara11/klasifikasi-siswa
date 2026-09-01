@@ -45,10 +45,10 @@
             <form method="POST" action="{{ route('login') }}" class="space-y-5">
                 @csrf
                 <div>
-                    <label class="block text-xs font-bold text-on-surface mb-2">Email</label>
-                    <input type="email" name="email" value="{{ old('email') }}" required autofocus
+                    <label class="block text-xs font-bold text-on-surface mb-2">Email / Username (NIS)</label>
+                    <input type="text" name="login" value="{{ old('login') }}" required autofocus
                         class="w-full border border-outline-variant bg-surface rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all"
-                        placeholder="Masukkan email"/>
+                        placeholder="Masukkan email atau NIS"/>
                 </div>
                 <div>
                     <label class="block text-xs font-bold text-on-surface mb-2">Password</label>

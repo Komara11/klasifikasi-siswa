@@ -10,25 +10,35 @@ class AuthController extends Controller
     public function showLogin()
     {
         if (Auth::check()) {
-            return redirect(Auth::user()->role === 'kepsek' ? '/kepsek/dashboard' : '/admin/dashboard');
+            $user = Auth::user();
+            if ($user->role === 'student') return redirect('/siswa/cek-hasil');
+            return redirect($user->role === 'kepsek' ? '/kepsek/dashboard' : '/admin/dashboard');
         }
         return view('auth.login');
     }
 
     public function login(Request $request)
     {
-        $credentials = $request->validate([
-            'email' => 'required|email',
+        $request->validate([
+            'login' => 'required|string',
             'password' => 'required|string',
         ]);
+
+        $loginType = filter_var($request->input('login'), FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
+        
+        $credentials = [
+            $loginType => $request->input('login'),
+            'password' => $request->input('password'),
+        ];
 
         if (Auth::attempt($credentials, $request->boolean('remember'))) {
             $request->session()->regenerate();
             $user = Auth::user();
+            if ($user->role === 'student') return redirect('/siswa/cek-hasil');
             return redirect($user->role === 'kepsek' ? '/kepsek/dashboard' : '/admin/dashboard');
         }
 
-        return back()->withErrors(['email' => 'Email atau password salah.'])->onlyInput('email');
+        return back()->withErrors(['login' => 'Email/Username atau password salah.'])->onlyInput('login');
     }
 
     public function logout(Request $request)

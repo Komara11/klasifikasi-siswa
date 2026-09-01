@@ -9,7 +9,12 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Student extends Model
 {
-    protected $fillable = ['nis', 'name', 'gender', 'classroom_id', 'birth_date', 'address', 'photo'];
+    protected $fillable = ['user_id', 'nis', 'name', 'gender', 'classroom_id', 'birth_date', 'address', 'photo'];
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
 
     public function classroom(): BelongsTo
     {

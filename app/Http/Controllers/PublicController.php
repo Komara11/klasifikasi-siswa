@@ -5,22 +5,21 @@ namespace App\Http\Controllers;
 use App\Models\Classification;
 use App\Models\Student;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PublicController extends Controller
 {
     public function cekHasil()
     {
-        return view('cek-hasil');
-    }
+        $user = Auth::user();
+        if (!$user || !$user->isStudent()) {
+            return redirect('/login');
+        }
 
-    public function cekHasilSearch(Request $request)
-    {
-        $request->validate(['nis' => 'required|string']);
-
-        $student = Student::where('nis', $request->nis)->with(['classroom', 'classification'])->first();
+        $student = $user->student()->with(['classroom', 'classification'])->first();
 
         if (!$student) {
-            return view('cek-hasil', ['error' => 'NIS tidak ditemukan dalam sistem. Pastikan NIS yang Anda masukkan benar.']);
+            return view('cek-hasil', ['error' => 'Data profil siswa Anda tidak ditemukan. Hubungi Guru BK.']);
         }
 
         if (!$student->classification) {

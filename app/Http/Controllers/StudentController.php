@@ -6,6 +6,9 @@ use App\Models\Classroom;
 use App\Models\Student;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 
 class StudentController extends Controller
 {
@@ -57,7 +60,18 @@ class StudentController extends Controller
             $validated['photo'] = $request->file('photo')->store('students', 'public');
         }
 
-        Student::create($validated);
+        DB::transaction(function () use ($validated) {
+            $user = User::create([
+                'name' => $validated['name'],
+                'username' => $validated['nis'],
+                'email' => $validated['nis'] . '@student.com', // dummy email
+                'password' => Hash::make('smpn1sumber'),
+                'role' => 'student',
+            ]);
+
+            $validated['user_id'] = $user->id;
+            Student::create($validated);
+        });
 
         return redirect()->route('admin.students.index')->with('success', 'Siswa berhasil ditambahkan.');
     }
@@ -82,17 +96,34 @@ class StudentController extends Controller
             $validated['photo'] = $request->file('photo')->store('students', 'public');
         }
 
-        $student->update($validated);
+        DB::transaction(function () use ($validated, $student) {
+            $student->update($validated);
+
+            if ($student->user) {
+                $student->user->update([
+                    'name' => $validated['name'],
+                    'username' => $validated['nis'],
+                    'email' => $validated['nis'] . '@student.com',
+                ]);
+            }
+        });
 
         return redirect()->route('admin.students.index')->with('success', 'Data siswa berhasil diperbarui.');
     }
 
     public function destroy(Student $student)
     {
-        if ($student->photo) {
-            Storage::disk('public')->delete($student->photo);
-        }
-        $student->delete();
+        DB::transaction(function () use ($student) {
+            if ($student->photo) {
+                Storage::disk('public')->delete($student->photo);
+            }
+            $user = $student->user;
+            $student->delete();
+            
+            if ($user) {
+                $user->delete();
+            }
+        });
         return redirect()->route('admin.students.index')->with('success', 'Siswa berhasil dihapus.');
     }
 }

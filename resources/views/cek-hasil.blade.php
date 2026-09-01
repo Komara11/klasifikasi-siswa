@@ -19,50 +19,23 @@
         <!-- Main Content -->
         <div x-show="!loading" class="space-y-6">
 
-            @if(isset($result))
-                {{-- Compact search bar when viewing results --}}
-                <div class="no-print max-w-lg mx-auto">
-                    <form method="POST" action="{{ route('cek-hasil.search') }}" class="flex gap-2.5">
-                        @csrf
-                        <input type="text" name="nis" value="{{ old('nis', isset($student) ? $student->nis : '') }}" required placeholder="Cari NIS lain..."
-                            class="flex-1 border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-primary/15 focus:border-primary outline-none bg-white transition-all font-medium"/>
-                        <button type="submit" class="bg-primary text-white px-5 py-2.5 rounded-xl text-sm font-semibold cursor-pointer transition-all hover:bg-primary/90 active:scale-[0.97]">
-                            Cari
-                        </button>
-                    </form>
+            {{-- Top Actions & Alerts --}}
+            <div class="no-print max-w-2xl mx-auto flex flex-col items-center gap-4 mb-6">
+                <form action="{{ route('logout') }}" method="POST">
+                    @csrf
+                    <button type="submit" class="bg-surface border border-outline-variant hover:bg-red-50 hover:text-red-600 hover:border-red-200 text-on-surface px-4 py-2 rounded-xl text-sm font-semibold cursor-pointer transition-all flex items-center justify-center gap-2">
+                        <span class="material-symbols-outlined text-[18px]">logout</span>
+                        Keluar dari Akun
+                    </button>
+                </form>
 
-                    @if(isset($error))
-                    <div class="bg-red-50 text-red-700 px-4 py-2.5 rounded-xl text-sm mt-3 font-medium">{{ $error }}</div>
-                    @endif
-                    @if(isset($warning))
-                    <div class="bg-amber-50 text-amber-700 px-4 py-2.5 rounded-xl text-sm mt-3 font-medium">{{ $warning }}</div>
-                    @endif
-                </div>
-            @else
-                {{-- Search form (no result) --}}
-                <div class="bg-white rounded-2xl p-6 sm:p-8 shadow-sm border border-gray-200/60 max-w-lg mx-auto">
-                    <div class="text-center mb-5">
-                        <h2 class="font-h1 text-primary text-xl sm:text-2xl font-extrabold tracking-tight">Cek Hasil Rekomendasi</h2>
-                        <p class="text-on-surface-variant text-sm mt-1.5">Masukkan NIS untuk melihat hasil rekomendasi peminatan.</p>
-                    </div>
-
-                    @if(isset($error))
-                    <div class="bg-red-50 text-red-700 px-4 py-2.5 rounded-xl text-sm mb-4 font-medium">{{ $error }}</div>
-                    @endif
-                    @if(isset($warning))
-                    <div class="bg-amber-50 text-amber-700 px-4 py-2.5 rounded-xl text-sm mb-4 font-medium">{{ $warning }}</div>
-                    @endif
-
-                    <form method="POST" action="{{ route('cek-hasil.search') }}" class="flex flex-col sm:flex-row gap-2.5">
-                        @csrf
-                        <input type="text" name="nis" value="{{ old('nis', isset($student) ? $student->nis : '') }}" required placeholder="Masukkan NIS (Contoh: 12903841)"
-                            class="flex-1 border border-gray-200 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-primary/15 focus:border-primary outline-none bg-white transition-all placeholder-gray-400 font-medium"/>
-                        <button type="submit" class="bg-primary text-white px-6 py-3 rounded-xl text-sm font-semibold cursor-pointer transition-all hover:bg-primary/90 active:scale-[0.97]">
-                            Cari
-                        </button>
-                    </form>
-                </div>
-            @endif
+                @if(isset($error))
+                <div class="bg-red-50 text-red-700 px-4 py-2.5 rounded-xl text-sm font-medium w-full text-center max-w-lg">{{ $error }}</div>
+                @endif
+                @if(isset($warning))
+                <div class="bg-amber-50 text-amber-700 px-4 py-2.5 rounded-xl text-sm font-medium w-full text-center max-w-lg">{{ $warning }}</div>
+                @endif
+            </div>
 
             {{-- ===== RESULT DISPLAY ===== --}}
             @if(isset($result))
@@ -259,7 +232,7 @@
                             <span class="material-symbols-outlined text-[18px]">print</span>
                             Cetak Rekomendasi
                         </button>
-                        <a href="{{ route('public.transcripts.pdf', $student) }}" target="_blank" class="bg-red-600 text-white px-6 py-2.5 rounded-xl text-sm font-semibold cursor-pointer transition-all hover:bg-red-700 active:scale-[0.97] flex items-center justify-center gap-2">
+                        <a href="{{ route('siswa.transcripts.pdf', $student) }}" target="_blank" class="bg-red-600 text-white px-6 py-2.5 rounded-xl text-sm font-semibold cursor-pointer transition-all hover:bg-red-700 active:scale-[0.97] flex items-center justify-center gap-2">
                             <span class="material-symbols-outlined text-[18px]">picture_as_pdf</span>
                             Unduh Transkrip
                         </a>
